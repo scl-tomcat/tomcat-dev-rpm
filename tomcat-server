@@ -13,8 +13,8 @@ OPTIONS="-Dcatalina.base=$CATALINA_BASE \
 -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager"
 
 if [ "$1" = "start" ] ; then
+  FLAGS="${FLAGS} $CATALINA_OPTS"
   if [ "${SECURITY_MANAGER}" = "true" ] ; then
-    FLAGS="${FLAGS} $CATALINA_OPTS"
     OPTIONS="${OPTIONS} \
     -Djava.security.manager \
     -Djava.security.policy==${CATALINA_BASE}/conf/catalina.policy"
