@@ -1,11 +1,46 @@
-# Service-specific configuration file for tomcat. This will be sourced by
-# systemd for the default service (tomcat.service)
+# Service-specific configuration file for tomcat services. This will be sourced by
+# systemd for the default service (tomcat.service).
+#
 # If you want to customize named instance, make a similar file
 # and name it tomcat@instancename.
+#
+# This will be loaded by systemd as an environment file, so please keep 
+# the syntax. If you need to use shell expansion, configure the necessary 
+# variables in /etc/tomcat/tomcat.conf.
 
-# You will not need to set this, usually. For default service it equals
-# CATALINA_HOME. For named service, it equals ${TOMCATS_BASE}${NAME}
-#CATALINA_BASE="@@@TCHOME@@@"
+# This variable is used to figure out if config is loaded or not.
+# Default is empty to load /etc/tomcat/tomcat.conf for overrides.
+#TOMCAT_CFG_LOADED="1"
 
-# Please take a look at /etc/tomcat/tomcat.conf to have an idea what you
-# can override.
+# In new-style instances, if CATALINA_BASE isn't specified, it will
+# be constructed by joining TOMCATS_BASE and NAME.
+TOMCATS_BASE="/var/lib/tomcats/"
+
+# Where your java installation lives
+JAVA_HOME="/usr/lib/jvm/jre"
+
+# Where your tomcat installation lives
+CATALINA_HOME="@@@TCHOME@@@"
+
+# System-wide tmp
+CATALINA_TMPDIR="/var/cache/tomcat/temp"
+
+# You can pass some parameters to java here if you wish to
+#JAVA_OPTS="-Xminf0.1 -Xmaxf0.3"
+
+# Use JAVA_OPTS to set java.library.path for libtcnative.so
+#JAVA_OPTS="-Djava.library.path=/usr/lib"
+
+# You can change your tomcat locale here
+#LANG="en_US"
+
+# Run tomcat under the Java Security Manager
+SECURITY_MANAGER="false"
+
+# Time to wait in seconds, before killing process
+# TODO(stingray): does nothing, fix.
+# SHUTDOWN_WAIT="30"
+
+# If you wish to further customize your tomcat environment,
+# put your own definitions here
+# (i.e. LD_LIBRARY_PATH for some jdbc drivers)
