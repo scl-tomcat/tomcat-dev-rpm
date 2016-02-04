@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 26
+%global micro_version 32
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -54,7 +54,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       4%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -69,7 +69,6 @@ Source6:       %{name}-%{major_version}.%{minor_version}-digest.script
 Source7:       %{name}-%{major_version}.%{minor_version}-tool-wrapper.script
 Source8:       servlet-api-OSGi-MANIFEST.MF
 Source9:       jsp-api-OSGi-MANIFEST.MF
-Source10:      %{name}-%{major_version}.%{minor_version}-log4j.properties
 Source11:      %{name}-%{major_version}.%{minor_version}.service
 Source12:      el-api-OSGi-MANIFEST.MF
 Source13:      jasper-el-OSGi-MANIFEST.MF
@@ -98,7 +97,6 @@ BuildRequires: tomcat-taglibs-standard
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
 BuildRequires: junit
-BuildRequires: log4j
 BuildRequires: geronimo-jaxrpc
 BuildRequires: wsdl4j
 BuildRequires: systemd-units
@@ -117,6 +115,9 @@ Requires(preun):  chkconfig
 Requires(post):   systemd-units
 Requires(preun):  systemd-units
 Requires(postun): systemd-units
+
+# added after log4j sub-package was removed
+Provides:         %{name}-log4j = %{epoch}:%{version}-%{release}
 
 %description
 Tomcat is the servlet container that is used in the official Reference
@@ -175,14 +176,6 @@ Requires(postun): chkconfig
 
 %description jsp-%{jspspec}-api
 Apache Tomcat JSP API implementation classes.
-
-%package log4j
-Group: Applications/Internet
-Summary: Log4j support for Apache Tomcat
-Requires: log4j
-
-%description log4j
-Log4j support for Apache Tomcat
 
 %package lib
 Group: Development/Libraries
@@ -344,7 +337,6 @@ zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 # First copy supporting libs to tomcat lib
 pushd output/build
     %{__cp} -a bin/*.{jar,xml} ${RPM_BUILD_ROOT}%{bindir}
-    %{__cp} %{SOURCE10} conf/log4j.properties
     %{__cp} -a conf/*.{policy,properties,xml} ${RPM_BUILD_ROOT}%{confdir}
     %{__cp} -a lib/*.jar ${RPM_BUILD_ROOT}%{libdir}
     %{__cp} -a webapps/* ${RPM_BUILD_ROOT}%{appdir}
@@ -420,7 +412,6 @@ pushd ${RPM_BUILD_ROOT}%{libdir}
     %{__ln_s} $(build-classpath apache-commons-collections) commons-collections.jar
     %{__ln_s} $(build-classpath apache-commons-dbcp) commons-dbcp.jar
     %{__ln_s} $(build-classpath apache-commons-pool) commons-pool.jar
-    %{__ln_s} $(build-classpath log4j) log4j.jar
     %{__ln_s} $(build-classpath ecj) jasper-jdt.jar
 
     # Temporary copy the juli jar here from /usr/share/java/tomcat (for maven depmap)
@@ -623,8 +614,6 @@ fi
 %{homedir}/logs
 %{homedir}/conf
 
-%exclude %{confdir}/log4j.properties
-
 %files admin-webapps
 %defattr(0664,root,tomcat,0755)
 %{appdir}/host-manager
@@ -641,11 +630,6 @@ fi
 %files jsp-%{jspspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-jsp-api
 %defattr(-,root,root,-)
 %{_javadir}/%{name}-jsp-%{jspspec}*.jar
-
-%files log4j
-%defattr(0664,root,tomcat,0755)
-%config(noreplace) %{confdir}/log4j.properties
-%{libdir}/log4j.jar
 
 %files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
 %defattr(-,root,root,-)
@@ -664,7 +648,6 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
-%exclude %{libdir}/log4j.jar
 
 %files servlet-%{servletspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-servlet-api
 %defattr(-,root,root,-)
@@ -688,6 +671,12 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+<<<<<<< HEAD
+* Thu Feb 11 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-1
+- Updated to 8.0.32
+- Remove log4j support. It has never been working actually. See rhbz#1236297
+- Move shipped config to /etc/sysconfig/tomcat. /etc/tomcat/tomcat.conf can now be used to override it with shell expansion, resolves rhbz#1293636
+
 * Wed Feb 10 2016 Coty Sutherland <csutherl@redhat.com> 1:8.0.26-4
 - Resolves: rhbz#1286800 Failed to start component due to wrong allowLinking="true" in context.xml
 - Program /bin/nologin does not exist (#1302718)
