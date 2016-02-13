@@ -36,6 +36,9 @@
 %global servletspec 3.1
 %global elspec 3.0
 %global tcuid 91
+#Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
+%global native_version 1.1.33
+
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
 %global basedir %{_var}/lib/%{name}
@@ -109,6 +112,7 @@ Requires:      java-headless >= 1:1.6.0
 Requires:      jpackage-utils
 Requires:      procps
 Requires:      %{name}-lib = %{epoch}:%{version}-%{release}
+Recommends:    tomcat-native >= %{native_version}
 Requires(pre):    shadow-utils
 Requires(post):   chkconfig
 Requires(preun):  chkconfig
@@ -671,11 +675,11 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
-<<<<<<< HEAD
 * Thu Feb 11 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-1
 - Updated to 8.0.32
 - Remove log4j support. It has never been working actually. See rhbz#1236297
 - Move shipped config to /etc/sysconfig/tomcat. /etc/tomcat/tomcat.conf can now be used to override it with shell expansion, resolves rhbz#1293636
+- Recommend tomcat-native, resolves: rhbz#1243132
 
 * Wed Feb 10 2016 Coty Sutherland <csutherl@redhat.com> 1:8.0.26-4
 - Resolves: rhbz#1286800 Failed to start component due to wrong allowLinking="true" in context.xml
