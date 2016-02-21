@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -410,9 +410,9 @@ popd
 
 pushd ${RPM_BUILD_ROOT}%{libdir}
     # symlink JSP and servlet API jars
-    %{__ln_s} ../%{name}-jsp-%{jspspec}-api.jar .
-    %{__ln_s} ../%{name}-servlet-%{servletspec}-api.jar .
-    %{__ln_s} ../%{name}-el-%{elspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-jsp-%{jspspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-servlet-%{servletspec}-api.jar .
+    %{__ln_s} ../../java/%{name}-el-%{elspec}-api.jar .
     %{__ln_s} $(build-classpath apache-commons-collections) commons-collections.jar
     %{__ln_s} $(build-classpath apache-commons-dbcp) commons-dbcp.jar
     %{__ln_s} $(build-classpath apache-commons-pool) commons-pool.jar
@@ -675,6 +675,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Sun Feb 21 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-3
+- Fix symlinks from $CATALINA_HOME/lib perspective, resolves: rhbz#1308685
+
 * Thu Feb 11 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-1
 - Updated to 8.0.32
 - Remove log4j support. It has never been working actually. See rhbz#1236297
