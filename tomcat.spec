@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       3%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -675,7 +675,11 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
-* Sun Feb 21 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-3
+* Sat Feb 27 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-3
+- Load sysconfig from tomcat.conf, resolves: rhbz#1311771, rhbz#1311905
+- Set default javax.sql.DataSource factory to apache commons one, resolves rhbz#1214381
+
+* Sun Feb 21 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-2
 - Fix symlinks from $CATALINA_HOME/lib perspective, resolves: rhbz#1308685
 
 * Thu Feb 11 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-1
@@ -691,7 +695,7 @@ fi
 * Fri Feb 05 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1:8.0.26-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
-* Tue Nov 11 2015 Robert Scheck <robert@fedoraproject.org> 1:8.0.26-2
+* Wed Nov 11 2015 Robert Scheck <robert@fedoraproject.org> 1:8.0.26-2
 - CATALINA_OPTS are only read when SECURITY_MANAGER is true (#1147105)
 
 * Thu Aug 27 2015 Alexander Kurtakov <akurtako@redhat.com> 1:8.0.26-1

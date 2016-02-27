@@ -8,9 +8,8 @@
 # the syntax. If you need to use shell expansion, configure the necessary 
 # variables in /etc/tomcat/tomcat.conf.
 
-# This variable is used to figure out if config is loaded or not.
-# Default is empty to load /etc/tomcat/tomcat.conf for overrides.
-#TOMCAT_CFG_LOADED="1"
+# This variable is used to figure out if this config is loaded or not.
+TOMCAT_SYSCONF_LOADED="1"
 
 # In new-style instances, if CATALINA_BASE isn't specified, it will
 # be constructed by joining TOMCATS_BASE and NAME.
@@ -30,6 +29,9 @@ CATALINA_TMPDIR="/var/cache/tomcat/temp"
 
 # Use JAVA_OPTS to set java.library.path for libtcnative.so
 #JAVA_OPTS="-Djava.library.path=/usr/lib"
+
+# Set default javax.sql.DataSource factory to apache commons one. See rhbz#1214381
+JAVA_OPTS="-Djavax.sql.DataSource.Factory=org.apache.commons.dbcp.BasicDataSourceFactory"
 
 # You can change your tomcat locale here
 #LANG="en_US"
