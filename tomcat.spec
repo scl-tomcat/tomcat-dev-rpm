@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       4%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -324,6 +324,8 @@ zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{bindir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{confdir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{confdir}/Catalina/localhost
+%{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{confdir}/conf.d
+/bin/echo "Place your custom *.conf files here. Shell expansion is supported." > ${RPM_BUILD_ROOT}%{confdir}/conf.d/README
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{libdir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{logdir}
 /bin/touch ${RPM_BUILD_ROOT}%{logdir}/catalina.out
@@ -600,6 +602,8 @@ fi
 %attr(0775,root,tomcat) %dir %{appdir}
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina/localhost
+%attr(0775,root,tomcat) %dir %{confdir}/conf.d
+%attr(0664,tomcat,tomcat) %{confdir}/conf.d/README
 %attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/%{name}.conf
 %attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.policy
 %attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.properties
@@ -675,6 +679,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
+- Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
+- Add /etc/tomcat/conf.d/ with shell expansion support, resolves rhbz#1293636
+
 * Sat Feb 27 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-3
 - Load sysconfig from tomcat.conf, resolves: rhbz#1311771, rhbz#1311905
 - Set default javax.sql.DataSource factory to apache commons one, resolves rhbz#1214381

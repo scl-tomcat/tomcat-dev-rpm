@@ -11,6 +11,14 @@ if [ -z "${TOMCAT_CFG_LOADED}" ]; then
   . $TOMCAT_CFG
 fi
 
+if [ -d "${TOMCAT_CONFD=/etc/tomcat/conf.d}" ]; then
+  for file in ${TOMCAT_CONFD}/*.conf ; do
+    if [ -f "$file" ] ; then
+      . "$file"
+    fi
+  done
+fi
+
 if [ -z "$CATALINA_BASE" ]; then
   if [ -n "$NAME" ]; then
     if [ -z "$TOMCATS_BASE" ]; then
