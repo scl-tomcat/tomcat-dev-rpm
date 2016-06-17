@@ -686,6 +686,7 @@ fi
 - Resolves: rhbz#1349463 CVE-2016-3092 tomcat: Usage of vulnerable FileUpload package can result in denial of service (updates to 8.0.36)
 - Resolves: rhbz#1364056 The command tomcat-digest doesn't work
 - Resolves: rhbz#1363884 The tomcat-tool-wrapper script is broken
+- Resolves: rhbz#1347864 The systemd service unit does not allow tomcat to shut down gracefully
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
