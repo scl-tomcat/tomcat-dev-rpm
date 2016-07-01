@@ -14,6 +14,7 @@ After=syslog.target network.target
 Type=simple
 EnvironmentFile=/etc/tomcat/tomcat.conf
 Environment="NAME=" "USE_JSVC=true"
+EnvironmentFile=-/etc/sysconfig/tomcat
 ExecStart=/usr/libexec/tomcat/server start
 ExecStop=/usr/libexec/tomcat/server stop
 

@@ -689,6 +689,7 @@ fi
 - Resolves: rhbz#1347864 The systemd service unit does not allow tomcat to shut down gracefully
 - Resolves: rhbz#1347835 The security manager doesn't work correctly (JSPs cannot be compiled)
 - Resolves: rhbz#1341853 rpm -V tomcat fails on /var/log/tomcat/catalina.out
+- Resolves: rhbz#1341850 tomcat-jsvc.service has TOMCAT_USER value hard-coded
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
