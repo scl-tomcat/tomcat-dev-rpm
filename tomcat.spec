@@ -596,8 +596,8 @@ fi
 %defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
 %defattr(0664,root,tomcat,0770)
-%attr(0660,tomcat,tomcat) %{logdir}/catalina.out
-%attr(0644,tomcat,tomcat) %{_localstatedir}/run/%{name}.pid
+%attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
+%attr(0644,tomcat,tomcat) %verify(not size md5 mtime) %{_localstatedir}/run/%{name}.pid
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
 %attr(0770,root,tomcat) %dir %{workdir}
@@ -688,6 +688,7 @@ fi
 - Resolves: rhbz#1363884 The tomcat-tool-wrapper script is broken
 - Resolves: rhbz#1347864 The systemd service unit does not allow tomcat to shut down gracefully
 - Resolves: rhbz#1347835 The security manager doesn't work correctly (JSPs cannot be compiled)
+- Resolves: rhbz#1341853 rpm -V tomcat fails on /var/log/tomcat/catalina.out
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
