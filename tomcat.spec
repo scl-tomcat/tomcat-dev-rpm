@@ -687,6 +687,7 @@ fi
 - Resolves: rhbz#1364056 The command tomcat-digest doesn't work
 - Resolves: rhbz#1363884 The tomcat-tool-wrapper script is broken
 - Resolves: rhbz#1347864 The systemd service unit does not allow tomcat to shut down gracefully
+- Resolves: rhbz#1347835 The security manager doesn't work correctly (JSPs cannot be compiled)
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
