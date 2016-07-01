@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 32
+%global micro_version 36
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       5%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -86,6 +86,7 @@ Source32:      tomcat-named.service
 
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
+Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
 
 BuildArch:     noarch
 
@@ -237,6 +238,8 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
+
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
 
@@ -679,7 +682,8 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
-* Mon Aug 08 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.32-5
+* Mon Aug 08 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.36-1
+- Resolves: rhbz#1349463 CVE-2016-3092 tomcat: Usage of vulnerable FileUpload package can result in denial of service (updates to 8.0.36)
 - Resolves: rhbz#1364056 The command tomcat-digest doesn't work
 - Resolves: rhbz#1363884 The tomcat-tool-wrapper script is broken
 
