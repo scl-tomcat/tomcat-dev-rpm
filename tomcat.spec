@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       4%{?dist}
+Release:       5%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -679,6 +679,9 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Aug 04 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.32-5
+- Resolves: rhbz#1364056 The command tomcat-digest doesn't work
+
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
 - Add /etc/tomcat/conf.d/ with shell expansion support, resolves rhbz#1293636
