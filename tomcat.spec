@@ -516,6 +516,14 @@ done
 %{__cp} -a tomcat-jdbc.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
 %add_maven_depmap JPP.%{name}-tomcat-jdbc.pom %{name}/tomcat-jdbc.jar
 
+# tomcat-websocket-api
+%{__cp} -a tomcat-websocket-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
+%add_maven_depmap JPP.%{name}-websocket-api.pom %{name}/websocket-api.jar
+
+# tomcat-tomcat-websocket
+%{__cp} -a tomcat-websocket.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
+%add_maven_depmap JPP.%{name}-tomcat-websocket.pom %{name}/tomcat-websocket.jar
+
 mkdir -p ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d
 cat > ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d/%{name}.conf <<EOF
 f %{_localstatedir}/run/%{name}.pid 0644 tomcat tomcat -
@@ -657,6 +665,8 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-coyote.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
+%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
+%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
 
@@ -690,6 +700,7 @@ fi
 - Resolves: rhbz#1347835 The security manager doesn't work correctly (JSPs cannot be compiled)
 - Resolves: rhbz#1341853 rpm -V tomcat fails on /var/log/tomcat/catalina.out
 - Resolves: rhbz#1341850 tomcat-jsvc.service has TOMCAT_USER value hard-coded
+- Resolves: rhbz#1359737 Missing maven depmap for the following artifacts: org.apache.tomcat:tomcat-websocket, org.apache.tomcat:tomcat-websocket-api
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
