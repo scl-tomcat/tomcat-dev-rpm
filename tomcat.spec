@@ -87,6 +87,7 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
+Patch3:        %{name}-8.0.36-asfbz-59960.patch
 
 BuildArch:     noarch
 
@@ -239,6 +240,7 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
@@ -701,6 +703,7 @@ fi
 - Resolves: rhbz#1341853 rpm -V tomcat fails on /var/log/tomcat/catalina.out
 - Resolves: rhbz#1341850 tomcat-jsvc.service has TOMCAT_USER value hard-coded
 - Resolves: rhbz#1359737 Missing maven depmap for the following artifacts: org.apache.tomcat:tomcat-websocket, org.apache.tomcat:tomcat-websocket-api
+- Resolves: asfbz#59960  Building javadocs with java8 fails
 
 * Wed Mar 2 2016 Ivan Afonichev <ivan.afonichev@gmail.com> - 1:8.0.32-4
 - Revert sysconfig migration changes, resolves: rhbz#1311771, rhbz#1311905
