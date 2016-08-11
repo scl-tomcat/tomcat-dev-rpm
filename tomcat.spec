@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -694,8 +694,11 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Thu Aug 11 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.36-2
+- Related: rhbz#1349469 Correct typo in changelog entry
+
 * Mon Aug 08 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.36-1
-- Resolves: rhbz#1349463 CVE-2016-3092 tomcat: Usage of vulnerable FileUpload package can result in denial of service (updates to 8.0.36)
+- Resolves: rhbz#1349469 CVE-2016-3092 tomcat: Usage of vulnerable FileUpload package can result in denial of service (updates to 8.0.36)
 - Resolves: rhbz#1364056 The command tomcat-digest doesn't work
 - Resolves: rhbz#1363884 The tomcat-tool-wrapper script is broken
 - Resolves: rhbz#1347864 The systemd service unit does not allow tomcat to shut down gracefully
