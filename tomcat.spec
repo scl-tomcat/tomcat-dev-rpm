@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 36
+%global micro_version 37
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       2%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -87,7 +87,7 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
-Patch3:        %{name}-8.0.36-asfbz-59960.patch
+Patch3:        %{name}-8.0.37-javadoc-fix.patch
 
 BuildArch:     noarch
 
@@ -694,6 +694,10 @@ fi
 %attr(0644,root,root) %{_unitdir}/%{name}-jsvc.service
 
 %changelog
+* Tue Sep 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-1
+- Rebase to 8.0.37
+- Resolves: rhbz#1375581 CVE-2016-5388 CGI sets environmental variable based on user supplied Proxy request header
+
 * Thu Aug 11 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.36-2
 - Related: rhbz#1349469 Correct typo in changelog entry
 
