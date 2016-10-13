@@ -334,9 +334,7 @@ zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 %{__install} -d -m 0755 ${RPM_BUILD_ROOT}%{libdir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{logdir}
 /bin/touch ${RPM_BUILD_ROOT}%{logdir}/catalina.out
-%{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{_localstatedir}/run
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{_localstatedir}/lib/tomcats
-/bin/touch ${RPM_BUILD_ROOT}%{_localstatedir}/run/%{name}.pid
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{homedir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{tempdir}
 %{__install} -d -m 0775 ${RPM_BUILD_ROOT}%{workdir}
@@ -525,11 +523,6 @@ done
 %{__cp} -a tomcat-websocket.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %add_maven_depmap JPP.%{name}-tomcat-websocket.pom %{name}/tomcat-websocket.jar
 
-mkdir -p ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d
-cat > ${RPM_BUILD_ROOT}%{_prefix}/lib/tmpfiles.d/%{name}.conf <<EOF
-f %{_localstatedir}/run/%{name}.pid 0644 tomcat tomcat -
-EOF
-
 
 %pre
 # add the tomcat user and group
@@ -604,7 +597,6 @@ fi
 %defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
 %defattr(0664,root,tomcat,0770)
-%attr(0644,tomcat,tomcat) %verify(not size md5 mtime) %{_localstatedir}/run/%{name}.pid
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
 %attr(0770,root,tomcat) %dir %{workdir}
@@ -622,7 +614,6 @@ fi
 %attr(0660,tomcat,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
 %attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
-%{_prefix}/lib/tmpfiles.d/%{name}.conf
 %{bindir}/bootstrap.jar
 %{bindir}/catalina-tasks.xml
 %{homedir}/lib
@@ -693,6 +684,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Oct 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-2
+- Resolves: rhbz#1382310 CVE-2016-5425 tomcat: Local privilege escalation via systemd-tmpfiles service
+
 * Tue Sep 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-1
 - Rebase to 8.0.37
 - Resolves: rhbz#1375581 CVE-2016-5388 CGI sets environmental variable based on user supplied Proxy request header
