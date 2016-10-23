@@ -591,28 +591,31 @@ fi
 %attr(0644,root,root) %{_libexecdir}/%{name}/functions
 %attr(0755,root,root) %{_libexecdir}/%{name}/preamble
 %attr(0755,root,root) %{_libexecdir}/%{name}/server
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %attr(0755,root,tomcat) %dir %{basedir}
 %attr(0755,root,tomcat) %dir %{confdir}
+
 %defattr(0664,tomcat,root,0770)
 %attr(0770,tomcat,root) %dir %{logdir}
+
 %defattr(0664,root,tomcat,0770)
 %attr(0770,root,tomcat) %dir %{cachedir}
 %attr(0770,root,tomcat) %dir %{tempdir}
 %attr(0770,root,tomcat) %dir %{workdir}
-%defattr(0664,root,tomcat,0775)
+
+%defattr(0644,root,tomcat,0775)
 %attr(0775,root,tomcat) %dir %{appdir}
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina
 %attr(0775,root,tomcat) %dir %{confdir}/Catalina/localhost
-%attr(0775,root,tomcat) %dir %{confdir}/conf.d
-%attr(0664,tomcat,tomcat) %{confdir}/conf.d/README
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/%{name}.conf
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.policy
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/*.properties
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/context.xml
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/server.xml
-%attr(0660,tomcat,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
-%attr(0664,tomcat,tomcat) %config(noreplace) %{confdir}/web.xml
+%attr(0755,root,tomcat) %dir %{confdir}/conf.d
+%{confdir}/conf.d/README
+%config(noreplace) %{confdir}/%{name}.conf
+%config(noreplace) %{confdir}/*.policy
+%config(noreplace) %{confdir}/*.properties
+%config(noreplace) %{confdir}/context.xml
+%config(noreplace) %{confdir}/server.xml
+%attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
+%config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{bindir}/bootstrap.jar
 %{bindir}/catalina-tasks.xml
@@ -684,6 +687,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Sun Oct 23 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-3
+- Resolves: rhbz#1383216 CVE-2016-6325 tomcat: tomcat writable config files allow privilege escalation
+
 * Thu Oct 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-2
 - Resolves: rhbz#1382310 CVE-2016-5425 tomcat: Local privilege escalation via systemd-tmpfiles service
 
