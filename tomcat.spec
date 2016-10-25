@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 0
-%global micro_version 37
+%global micro_version 38
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -57,7 +57,7 @@
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
-Release:       3%{?dist}
+Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
 
 Group:         System Environment/Daemons
@@ -87,7 +87,6 @@ Source32:      tomcat-named.service
 Patch0:        %{name}-%{major_version}.%{minor_version}-bootstrap-MANIFEST.MF.patch
 Patch1:        %{name}-%{major_version}.%{minor_version}-tomcat-users-webapp.patch
 Patch2:        %{name}-8.0.36-CompilerOptionsV9.patch
-Patch3:        %{name}-8.0.37-javadoc-fix.patch
 
 BuildArch:     noarch
 
@@ -240,7 +239,6 @@ find . -type f \( -name "*.bat" -o -name "*.class" -o -name Thumbs.db -o -name "
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
 
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-impl) webapps/examples/WEB-INF/lib/jstl.jar
 %{__ln_s} $(build-classpath tomcat-taglibs-standard/taglibs-standard-compat) webapps/examples/WEB-INF/lib/standard.jar
@@ -687,10 +685,11 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Oct 25 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.38-1
+- Update to 8.0.38
+
 * Sun Oct 23 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-3
 - Resolves: rhbz#1383216 CVE-2016-6325 tomcat: tomcat writable config files allow privilege escalation
-
-* Thu Oct 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-2
 - Resolves: rhbz#1382310 CVE-2016-5425 tomcat: Local privilege escalation via systemd-tmpfiles service
 
 * Tue Sep 13 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.37-1
