@@ -30,8 +30,8 @@
 
 %global jspspec 2.3
 %global major_version 8
-%global minor_version 0
-%global micro_version 39
+%global minor_version 5
+%global micro_version 9
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -343,7 +343,7 @@ zip -u output/build/bin/tomcat-juli.jar META-INF/MANIFEST.MF
 # First copy supporting libs to tomcat lib
 pushd output/build
     %{__cp} -a bin/*.{jar,xml} ${RPM_BUILD_ROOT}%{bindir}
-    %{__cp} -a conf/*.{policy,properties,xml} ${RPM_BUILD_ROOT}%{confdir}
+    %{__cp} -a conf/*.{policy,properties,xml,xsd} ${RPM_BUILD_ROOT}%{confdir}
     %{__cp} -a lib/*.jar ${RPM_BUILD_ROOT}%{libdir}
     %{__cp} -a webapps/* ${RPM_BUILD_ROOT}%{appdir}
 popd
@@ -613,6 +613,9 @@ fi
 %config(noreplace) %{confdir}/context.xml
 %config(noreplace) %{confdir}/server.xml
 %attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
+%attr(0664,root,tomcat) %{confdir}/tomcat-users.xsd
+%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
+%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 %config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{bindir}/bootstrap.jar
