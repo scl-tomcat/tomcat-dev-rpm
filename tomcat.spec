@@ -63,8 +63,7 @@ Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{js
 Group:         System Environment/Daemons
 License:       ASL 2.0
 URL:           http://tomcat.apache.org/
-#Source0:       http://www.apache.org/dist/tomcat/tomcat-%{major_version}/v%{version}/src/%{packdname}.tar.gz
-Source0:       tomcat.tar.gz
+Source0:       http://www.apache.org/dist/tomcat/tomcat-%{major_version}/v%{version}/src/%{packdname}.tar.gz
 Source1:       %{name}-%{major_version}.%{minor_version}.conf
 Source3:       %{name}-%{major_version}.%{minor_version}.sysconfig
 Source4:       %{name}-%{major_version}.%{minor_version}.wrapper
