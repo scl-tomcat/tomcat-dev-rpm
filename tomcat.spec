@@ -35,6 +35,8 @@
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
+%global websocketspec 1.1
+%global jaspicspec 1.1
 %global tcuid 91
 # Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
 %global native_version 1.2.8
@@ -171,7 +173,7 @@ which allows tomcat to perform some privileged operations
 
 %package jsp-%{jspspec}-api
 Group: Development/Libraries
-Summary: Apache Tomcat JSP API implementation classes
+Summary: JavaServer Pages v%{jspspec} API
 Provides: jsp = %{jspspec}
 Obsoletes: %{name}-jsp-2.2-api
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
@@ -181,6 +183,26 @@ Requires(postun): chkconfig
 
 %description jsp-%{jspspec}-api
 Apache Tomcat JSP API implementation classes.
+
+%package jaspic-%{jaspicspec}-api
+Group: Development/Libraries
+Summary: Java Authentication Service Provider Interface for Containers v%{jaspicspec} API
+Provides: jaspic_api = %{jaspicspec}
+Requires(post): chkconfig
+Requires(postun): chkconfig
+
+%description jaspic-%{jaspicspec}-api
+Apache Tomcat JASPIC API implementation classes.
+
+%package websocket-%{websocketspec}-api
+Group: Development/Libraries
+Summary: WebSocket v%{websocketspec} API
+Provides: websocket_api = %{websocketspec}
+Requires(post): chkconfig
+Requires(postun): chkconfig
+
+%description websocket-%{websocketspec}-api
+Apache Tomcat WebSocket API implementation classes.
 
 %package lib
 Group: Development/Libraries
@@ -199,7 +221,7 @@ Libraries needed to run the Tomcat Web container.
 
 %package servlet-%{servletspec}-api
 Group: Development/Libraries
-Summary: Apache Tomcat Servlet API implementation classes
+Summary: Java Servlet v%{servletspec} API
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
@@ -219,7 +241,7 @@ Requires(post): chkconfig
 Requires(postun): chkconfig
 
 %description el-%{elspec}-api
-Expression Language %{elspec}.
+Apache Tomcat EL API implementation classes.
 
 %package webapps
 Group: Applications/Internet
@@ -521,6 +543,10 @@ done
 %{__cp} -a tomcat-websocket.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %add_maven_depmap JPP.%{name}-tomcat-websocket.pom %{name}/tomcat-websocket.jar
 
+# tomcat-jaspic-api
+%{__cp} -a tomcat-jaspic-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
+%add_maven_depmap JPP.%{name}-jaspic-api.pom %{name}/jaspic-api.jar
+
 
 %pre
 # add the tomcat user and group
@@ -614,8 +640,6 @@ fi
 %config(noreplace) %{confdir}/server.xml
 %attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
 %attr(0664,root,tomcat) %{confdir}/tomcat-users.xsd
-%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
-%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 %config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{bindir}/bootstrap.jar
@@ -659,8 +683,6 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-coyote.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
-%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
-%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
 %{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
 
@@ -674,6 +696,21 @@ fi
 %doc LICENSE
 %{_javadir}/%{name}-el-%{elspec}-api.jar
 %{libdir}/%{name}-el-%{elspec}-api.jar
+
+%files websocket-%{websocketspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-websocket-api
+%defattr(-,root,root,-)
+%doc LICENSE
+%{_javadir}/%{name}-websocket-%{websocketspec}*.jar
+%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
+%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
+
+%files jaspic-%{jaspicspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-jaspic-api
+%defattr(-,root,root,-)
+%doc LICENSE
+%{_javadir}/%{name}-jaspic-%{jaspicspec}*.jar
+%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
+%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
+%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 
 %files webapps
 %defattr(0644,tomcat,tomcat,0755)
