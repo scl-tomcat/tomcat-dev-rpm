@@ -688,6 +688,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> 8.5.9-1
+- new package built with tito
+
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.39-1
 - Update to 8.0.39
 - Resolves: rhbz#1397493 CVE-2016-6816 CVE-2016-6817 CVE-2016-8735 tomcat: various flaws
