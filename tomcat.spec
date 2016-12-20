@@ -36,8 +36,8 @@
 %global servletspec 3.1
 %global elspec 3.0
 %global tcuid 91
-#Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
-%global native_version 1.1.33
+# Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
+%global native_version 1.2.8
 
 
 # FHS 2.3 compliant tree structure - http://www.pathname.com/fhs/2.3/
