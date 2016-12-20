@@ -1,9 +1,3 @@
-"""
-This builder was created to address the way that tito builds tarballs,
-it doesn't work for tomcat's spec. In an effort to keep the spec unchanged
-I wrote this class to modify the behavior.
-"""
-
 from tito.builder import Builder
 
 class ApacheTomcatTarBuilder(Builder):
@@ -14,4 +8,4 @@ class ApacheTomcatTarBuilder(Builder):
         just the project name, but in the case of Satellite packages it may
         be different.
         """
-        return "%s-%s-new" % (self.project_name, self.display_version)
+        return "apache-%s-%s-src" % (self.project_name, self.display_version)
