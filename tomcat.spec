@@ -689,6 +689,10 @@ fi
 
 %changelog
 * Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> 8.5.9-1
+- Added custom builder (csutherl@redhat.com)
+- Adding tag suffix (csutherl@redhat.com)
+
+* Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> 8.5.9-1
 - new package built with tito
 
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.39-1
