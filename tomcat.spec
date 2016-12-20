@@ -688,11 +688,7 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
-* Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> 8.5.9-1
-- Added custom builder (csutherl@redhat.com)
-- Adding tag suffix (csutherl@redhat.com)
-
-* Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> 8.5.9-1
+* Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> - 0:8.5.9-1
 - new package built with tito
 
 * Tue Nov 29 2016 Coty Sutherland <csutherl@redhat.com> - 1:8.0.39-1
