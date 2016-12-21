@@ -57,7 +57,7 @@
 %global _systemddir /lib/systemd/system
 
 Name:          tomcat
-Epoch:         0
+Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
 Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
