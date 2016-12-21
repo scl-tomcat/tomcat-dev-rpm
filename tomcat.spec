@@ -140,6 +140,7 @@ to be a collaboration of the best-of-breed developers from around the world.
 Group: Applications/System
 Summary: The host-manager and manager web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
+Requires: %{name}-jaspic-%{jaspicspec}-api = %{epoch}:%{version}-%{release}
 
 %description admin-webapps
 The host-manager and manager web applications for Apache Tomcat.
@@ -210,7 +211,6 @@ Summary: Libraries needed to run the Tomcat Web container
 Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
-Requires: %{name}-jaspic-%{jaspicspec}-api = %{epoch}:%{version}-%{release}
 Requires: ecj >= 1:4.2.1
 Requires: apache-commons-collections
 Requires: apache-commons-dbcp
@@ -249,6 +249,7 @@ Group: Applications/Internet
 Summary: The ROOT and examples web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
 Requires: %{name}-websocket-%{websocketspec}-api = %{epoch}:%{version}-%{release}
+Requires: %{name}-jaspic-%{jaspicspec}-api = %{epoch}:%{version}-%{release}
 Requires: tomcat-taglibs-standard >= 0:1.1
 
 %description webapps
