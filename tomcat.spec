@@ -199,6 +199,7 @@ Apache Tomcat JASPIC API implementation classes.
 Group: Development/Libraries
 Summary: WebSocket v%{websocketspec} API
 Provides: websocket_api = %{websocketspec}
+Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
