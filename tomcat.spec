@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 5
-%global micro_version 9
+%global micro_version 11
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -740,6 +740,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Jan 19 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.11-1
+- Update to 8.5.11
+
 * Tue Dec 20 2016 Coty Sutherland <csutherl@redhat.com> - 0:8.5.9-1
 - new package built with tito
 
