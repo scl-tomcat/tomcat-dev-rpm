@@ -35,8 +35,6 @@
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
-%global websocketspec 1.1
-%global jaspicspec 1.1
 %global tcuid 91
 # Recommended version is specified in java/org/apache/catalina/core/AprLifecycleListener.java
 %global native_version 1.2.8
@@ -185,27 +183,6 @@ Requires(postun): chkconfig
 %description jsp-%{jspspec}-api
 Apache Tomcat JSP API implementation classes.
 
-%package jaspic-%{jaspicspec}-api
-Group: Development/Libraries
-Summary: Java Authentication Service Provider Interface for Containers v%{jaspicspec} API
-Provides: jaspic_api = %{jaspicspec}
-Requires(post): chkconfig
-Requires(postun): chkconfig
-
-%description jaspic-%{jaspicspec}-api
-Apache Tomcat JASPIC API implementation classes.
-
-%package websocket-%{websocketspec}-api
-Group: Development/Libraries
-Summary: WebSocket v%{websocketspec} API
-Provides: websocket_api = %{websocketspec}
-Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
-Requires(post): chkconfig
-Requires(postun): chkconfig
-
-%description websocket-%{websocketspec}-api
-Apache Tomcat WebSocket API implementation classes.
-
 %package lib
 Group: Development/Libraries
 Summary: Libraries needed to run the Tomcat Web container
@@ -250,7 +227,6 @@ Apache Tomcat EL API implementation classes.
 Group: Applications/Internet
 Summary: The ROOT and examples web applications for Apache Tomcat
 Requires: %{name} = %{epoch}:%{version}-%{release}
-Requires: %{name}-websocket-%{websocketspec}-api = %{epoch}:%{version}-%{release}
 Requires: tomcat-taglibs-standard >= 0:1.1
 
 %description webapps
@@ -425,10 +401,6 @@ pushd ${RPM_BUILD_ROOT}%{_javadir}
    %{__ln_s} %{name}-servlet-%{servletspec}-api.jar %{name}-servlet-api.jar
    %{__mv} %{name}/el-api.jar %{name}-el-%{elspec}-api.jar
    %{__ln_s} %{name}-el-%{elspec}-api.jar %{name}-el-api.jar
-   %{__mv} %{name}/websocket-api.jar %{name}-websocket-%{websocketspec}-api.jar
-   %{__ln_s} %{name}-websocket-%{websocketspec}-api.jar %{name}-websocket-api.jar
-   %{__mv} %{name}/jaspic-api.jar %{name}-jaspic-%{jaspicspec}-api.jar
-   %{__ln_s} %{name}-jaspic-%{jaspicspec}-api.jar %{name}-jaspic-api.jar
 popd
 
 pushd output/build
@@ -445,8 +417,6 @@ pushd ${RPM_BUILD_ROOT}%{libdir}
     %{__ln_s} ../../java/%{name}-jsp-%{jspspec}-api.jar .
     %{__ln_s} ../../java/%{name}-servlet-%{servletspec}-api.jar .
     %{__ln_s} ../../java/%{name}-el-%{elspec}-api.jar .
-    %{__ln_s} ../../java/%{name}-websocket-%{websocketspec}-api.jar .
-    %{__ln_s} ../../java/%{name}-jaspic-%{jaspicspec}-api.jar .
     %{__ln_s} $(build-classpath apache-commons-collections) commons-collections.jar
     %{__ln_s} $(build-classpath apache-commons-dbcp) commons-dbcp.jar
     %{__ln_s} $(build-classpath apache-commons-pool) commons-pool.jar
@@ -547,7 +517,7 @@ done
 
 # tomcat-websocket-api
 %{__cp} -a tomcat-websocket-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
-%add_maven_depmap JPP.%{name}-websocket-api.pom %{name}-websocket-api.jar -f "tomcat-websocket-api"
+%add_maven_depmap JPP.%{name}-websocket-api.pom %{name}/websocket-api.jar
 
 # tomcat-tomcat-websocket
 %{__cp} -a tomcat-websocket.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
@@ -555,7 +525,7 @@ done
 
 # tomcat-jaspic-api
 %{__cp} -a tomcat-jaspic-api.pom ${RPM_BUILD_ROOT}%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
-%add_maven_depmap JPP.%{name}-jaspic-api.pom %{name}-jaspic-api.jar -f "tomcat-jaspic-api"
+%add_maven_depmap JPP.%{name}-jaspic-api.pom %{name}/jaspic-api.jar
 
 
 %pre
@@ -650,6 +620,8 @@ fi
 %config(noreplace) %{confdir}/server.xml
 %attr(0640,root,tomcat) %config(noreplace) %{confdir}/tomcat-users.xml
 %attr(0664,root,tomcat) %{confdir}/tomcat-users.xsd
+%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
+%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 %config(noreplace) %{confdir}/web.xml
 %dir %{homedir}
 %{bindir}/bootstrap.jar
@@ -680,7 +652,9 @@ fi
 
 %files lib -f output/dist/src/res/maven/.mfiles-tomcat-lib
 %defattr(-,root,root,-)
-%{libdir}
+%dir %{libdir}
+%{libdir}/*.jar
+%{_javadir}/*.jar
 %{bindir}/tomcat-juli.jar
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
@@ -693,11 +667,14 @@ fi
 %{_mavenpomdir}/JPP.%{name}-tomcat-coyote.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-util.pom
 %{_mavenpomdir}/JPP.%{name}-tomcat-jdbc.pom
+%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
+%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
+%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
 %{_datadir}/maven-metadata/tomcat.xml
 %exclude %{libdir}/%{name}-el-%{elspec}-api.jar
-%exclude %{libdir}/%{name}-websocket-%{websocketspec}-api.jar
-%exclude %{libdir}/%{name}-websocket.jar
-%exclude %{libdir}/%{name}-jaspic-%{jaspicspec}-api.jar
+%exclude %{_javadir}/%{name}-servlet-%{servletspec}*.jar
+%exclude %{_javadir}/%{name}-el-%{elspec}-api.jar
+%exclude %{_javadir}/%{name}-jsp-%{jspspec}*.jar
 
 %files servlet-%{servletspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-servlet-api
 %defattr(-,root,root,-)
@@ -709,24 +686,6 @@ fi
 %doc LICENSE
 %{_javadir}/%{name}-el-%{elspec}-api.jar
 %{libdir}/%{name}-el-%{elspec}-api.jar
-
-%files websocket-%{websocketspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-websocket-api
-%defattr(-,root,root,-)
-%doc LICENSE
-%{_javadir}/%{name}-websocket-%{websocketspec}*.jar
-%{libdir}/%{name}-websocket-%{websocketspec}-api.jar
-%{libdir}/%{name}-websocket.jar
-%{_mavenpomdir}/JPP.%{name}-websocket-api.pom
-%{_mavenpomdir}/JPP.%{name}-tomcat-websocket.pom
-
-%files jaspic-%{jaspicspec}-api -f output/dist/src/res/maven/.mfiles-tomcat-jaspic-api
-%defattr(-,root,root,-)
-%doc LICENSE
-%{_javadir}/%{name}-jaspic-%{jaspicspec}*.jar
-%{libdir}/%{name}-jaspic-%{jaspicspec}-api.jar
-%{_mavenpomdir}/JPP.%{name}-jaspic-api.pom
-%attr(0664,root,tomcat) %config(noreplace) %{confdir}/jaspic-providers.xml
-%attr(0664,root,tomcat) %{confdir}/jaspic-providers.xsd
 
 %files webapps
 %defattr(0644,tomcat,tomcat,0755)
