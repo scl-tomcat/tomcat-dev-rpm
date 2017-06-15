@@ -31,7 +31,7 @@
 %global jspspec 2.3
 %global major_version 8
 %global minor_version 5
-%global micro_version 11
+%global micro_version 15
 %global packdname apache-tomcat-%{version}-src
 %global servletspec 3.1
 %global elspec 3.0
@@ -106,6 +106,7 @@ BuildRequires: junit
 BuildRequires: geronimo-jaxrpc
 BuildRequires: wsdl4j
 BuildRequires: systemd-units
+
 Requires:      apache-commons-daemon
 Requires:      apache-commons-logging
 Requires:      apache-commons-collections
@@ -740,6 +741,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
+- Update to 8.5.15
+
 * Thu Jan 19 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.11-1
 - Update to 8.5.11
 
