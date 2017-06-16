@@ -683,7 +683,7 @@ fi
 %dir %{libdir}
 %{libdir}/*.jar
 %{_javadir}/*.jar
-%{_mavendepmapfragdir}
+%{!?fc24:%{_mavendepmapfragdir}}
 %{bindir}/tomcat-juli.jar
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
