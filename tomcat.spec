@@ -54,8 +54,11 @@
 %global _initrddir %{_sysconfdir}/init.d
 %global _systemddir /lib/systemd/system
 
-# Fedora doesn't have this macro, so we define it if it doesn't exist
+# Fedora doesn't seem to have this macro, so we define it if it doesn't exist
 %{!?_mavendepmapfragdir: %global _mavendepmapfragdir /usr/share/maven-metadata}
+# Fedora 24 erroneously uses %%{_datadir}/maven-fragments instead of /maven-metadata for some reason...
+# Override the mavendepmapfragdir var on fc24
+%{?fc24: %global _mavendepmapfragdir /usr/share/maven-metadata}
 
 Name:          tomcat
 Epoch:         1
@@ -683,7 +686,7 @@ fi
 %dir %{libdir}
 %{libdir}/*.jar
 %{_javadir}/*.jar
-%{!?fc24:%{_mavendepmapfragdir}}
+%{_mavendepmapfragdir}
 %{bindir}/tomcat-juli.jar
 %{_mavenpomdir}/JPP.%{name}-annotations-api.pom
 %{_mavenpomdir}/JPP.%{name}-catalina-ha.pom
