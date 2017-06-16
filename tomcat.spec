@@ -61,7 +61,7 @@
 %{?fc24: %global _mavendepmapfragdir /usr/share/maven-metadata}
 
 Name:          tomcat
-Epoch:         1
+Epoch:         2
 Version:       %{major_version}.%{minor_version}.%{micro_version}
 Release:       1%{?dist}
 Summary:       Apache Servlet/JSP Engine, RI for Servlet %{servletspec}/JSP %{jspspec} API
@@ -730,6 +730,9 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri Jun 16 2017 Coty Sutherland <csutherl@redhat.com> - 2:8.5.15-1
+- Bumping the epoch version so that this package overrides the OS package when the COPR repo is enabled
+
 * Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
 - Update to 8.5.15
 
