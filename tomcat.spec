@@ -203,7 +203,6 @@ Summary: Libraries needed to run the Tomcat Web container
 Requires: %{name}-jsp-%{jspspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
-Requires: %{name}-jaspic-%{jaspicspec}-api = %{epoch}:%{version}-%{release}
 Requires: ecj >= 1:4.2.1
 Requires: apache-commons-collections
 Requires: apache-commons-dbcp
