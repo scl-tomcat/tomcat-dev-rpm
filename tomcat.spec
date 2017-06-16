@@ -54,6 +54,9 @@
 %global _initrddir %{_sysconfdir}/init.d
 %global _systemddir /lib/systemd/system
 
+# Fedora doesn't have this macro, so we define it if it doesn't exist
+%{!?_mavendepmapfragdir: %global _mavendepmapfragdir /usr/share/maven-metadata}
+
 Name:          tomcat
 Epoch:         1
 Version:       %{major_version}.%{minor_version}.%{micro_version}
@@ -114,7 +117,6 @@ BuildRequires: junit
 BuildRequires: systemd-units
 
 Requires:      apache-commons-daemon
-Requires:      apache-commons-logging
 Requires:      apache-commons-collections
 Requires:      apache-commons-dbcp
 Requires:      apache-commons-pool
@@ -273,9 +275,6 @@ export OPT_JAR_LIST="xalan-j2-serializer"
    # tomcat-dbcp.jar with apache-commons-{collections,dbcp,pool}-tomcat5.jar
    # so just create a dummy file for later removal
    touch HACK
-   %{__mkdir_p} HACKDIR
-   touch HACKDIR/build.xml
-   touch HACKDIR/LICENSE
 
    # who needs a build.properties file anyway
    %{ant} -Dbase.path="." \
@@ -283,15 +282,11 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dcommons-collections.jar="$(build-classpath apache-commons-collections)" \
       -Dcommons-daemon.jar="$(build-classpath apache-commons-daemon)" \
       -Dcommons-daemon.native.src.tgz="HACK" \
-      -Djasper-jdt.jar="$(build-classpath ecj)" \
       -Djdt.jar="$(build-classpath ecj)" \
       -Dtomcat-native.tar.gz="HACK" \
       -Dtomcat-native.home="." \
-      -Dtomcat-native.win.path="HACKDIR" \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
-      -Dcommons-pool.home="HACKDIR" \
-      -Dcommons-dbcp.home="HACKDIR" \
       -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
@@ -299,8 +294,7 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       deploy dist-prepare dist-source javadoc
 
     # remove some jars that we'll replace with symlinks later
-   %{__rm} output/build/bin/commons-daemon.jar \
-           output/build/lib/ecj.jar
+    %{__rm} output/build/bin/commons-daemon.jar output/build/lib/ecj.jar
 
     # remove the cruft we created
    %{__rm} output/build/bin/tomcat-native.tar.gz
