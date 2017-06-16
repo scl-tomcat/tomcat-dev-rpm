@@ -111,6 +111,8 @@ BuildRequires: ecj >= 1:4.4.0
 BuildRequires: jakarta-taglibs-standard
 BuildRequires: ecj >= 1:4.2.0
 %endif
+BuildRequires: geronimo-jaxrpc
+BuildRequires: wsdl4j
 BuildRequires: java-devel >= 1:1.6.0
 BuildRequires: jpackage-utils >= 0:1.7.0
 BuildRequires: junit
@@ -287,6 +289,8 @@ export OPT_JAR_LIST="xalan-j2-serializer"
       -Dtomcat-native.home="." \
       -Dcommons-daemon.native.win.mgr.exe="HACK" \
       -Dnsis.exe="HACK" \
+      -Djaxrpc-lib.jar="$(build-classpath jaxrpc)" \
+      -Dwsdl4j-lib.jar="$(build-classpath wsdl4j)" \
       -Dno.build.dbcp=true \
       -Dversion="%{version}" \
       -Dversion.build="%{micro_version}" \
