@@ -740,7 +740,7 @@ fi
 
 %changelog
 * Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
-- Update to 8.5.15
+- Update to 8.5.15 
 
 * Thu Jan 19 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.11-1
 - Update to 8.5.11
