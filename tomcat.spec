@@ -33,13 +33,8 @@
 # Sweet lord this is nasty, but no way around it on RHEL...
 # FTR, I don't want to do this, but I also don't want to rebuild packages to work
 # with it. This is a hack to allow installing the 8.5 package on RHEL.
-%if 0%{?rhel}
-%global jspspec 2.2
-%global servletspec 3.0
-%else
 %global jspspec 2.3
 %global servletspec 3.1
-%endif
 %global major_version 8
 %global minor_version 5
 %global micro_version 15
@@ -198,7 +193,9 @@ which allows tomcat to perform some privileged operations
 Group: Development/Libraries
 Summary: JavaServer Pages v%{jspspec} API
 Provides: jsp = %{jspspec}
+%if 0%{?fedora}
 Obsoletes: %{name}-jsp-2.2-api
+%endif
 Requires: %{name}-servlet-%{servletspec}-api = %{epoch}:%{version}-%{release}
 Requires: %{name}-el-%{elspec}-api = %{epoch}:%{version}-%{release}
 Requires(post): chkconfig
@@ -228,7 +225,9 @@ Summary: Java Servlet v%{servletspec} API
 Provides: servlet = %{servletspec}
 Provides: servlet6
 Provides: servlet3
+%if 0%{?fedora}
 Obsoletes: %{name}-servlet-3.0-api
+%endif
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
@@ -239,7 +238,9 @@ Apache Tomcat Servlet API implementation classes.
 Group: Development/Libraries
 Summary: Expression Language v%{elspec} API
 Provides: el_api = %{elspec}
+%if 0%{?fedora}
 Obsoletes: %{name}-el-2.2-api
+%endif
 Requires(post): chkconfig
 Requires(postun): chkconfig
 
