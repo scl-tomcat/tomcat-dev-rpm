@@ -1,0 +1,26 @@
+sudo: required
+
+services:
+  - docker
+
+env:
+ matrix:
+   - OS=centos:7
+   - OS=fedora:25
+   - OS=fedora:26
+#   - OS=fedora:rawhide
+
+script: if [ $TRAVIS_EVENT_TYPE != "cron" ]; then .test/test.sh; fi
+
+stages:
+  - name: create_pr_on_new_version
+    if: type = cron
+  - name: tag_if_new_version
+    if: type IN (push, api) AND branch = master
+
+jobs:
+  include:
+    - stage: create_pr_on_new_version
+      script: .release/create-pr-on-new-version.sh
+    - stage: tag_if_new_version
+      script: .release/tag-if-new-version.sh
