@@ -13,6 +13,7 @@ if [ -z "$GITHUB_TOKEN" ]; then
     echo "Env var GITHUB_TOKEN not defined and needed to git push the new version."
 fi
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/.."
 MAJOR=`grep "%global major_version" $DIR/tomcat.spec |sed 's/.* //g' `
 MINOR=`grep "%global minor_version" $DIR/tomcat.spec |sed 's/.* //g' `
 

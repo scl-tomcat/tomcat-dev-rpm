@@ -4,6 +4,7 @@ set -ex
 sed -i "s/FROM .*/FROM $OS/g" .test/Dockerfile
 
 if [[ "$OS" =~ ^fedora.* ]]; then
+  sed -i "s/yum-/dnf /g" .test/*
   sed -i "s/yum/dnf/g" .test/*
 fi
 

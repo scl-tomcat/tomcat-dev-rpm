@@ -17,12 +17,12 @@ echo "Build RPM"
 #fi
 #set -e
 
- yum-builddep *.spec
+yum-builddep -y *.spec
 rpmbuild -ba *.spec
 
 echo "Install RPM"
 #yum install -y /var/lib/mock/*/result/*.rpm
-yum install -y *.rpm
+yum install -y  /root/rpmbuild/RPMS/noarch/*.rpm
 
 echo "Start Tomcat"
 /usr/libexec/tomcat/server start &
