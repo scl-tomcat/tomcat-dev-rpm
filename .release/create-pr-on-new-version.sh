@@ -20,8 +20,7 @@ MICRO=$(.release/fetch-version.sh)
 VERSION="$MAJOR.$MINOR.$MICRO"
 
 echo "Check if version $MICRO is already commited"
-git branch -a |grep "r${VERSION}$" && exit 0
-git tag |grep "\.${MICRO}$" && exit 0
+curl -f --user "$GITHUB_USER:$GITHUB_TOKEN" https://api.github.com/repos/$TRAVIS_REPO_SLUG/branches |grep name | grep "r${VERSION}" && exit 0
 
 echo "Update specfile with new version $MICRO"
 .release/update-version.sh $MICRO
