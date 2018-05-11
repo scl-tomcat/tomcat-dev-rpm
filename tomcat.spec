@@ -739,6 +739,69 @@ fi
 %attr(0660,tomcat,tomcat) %verify(not size md5 mtime) %{logdir}/catalina.out
 
 %changelog
+* Fri May 11 2018 Travis CI <travis@travis-ci.org> 8.5.31-1
+- Update to 8.5.31 (travis@example.org)
+- feat: add travis test and auto-pull-request (Filirom1@gmail.com)
+- Reverting this change back. The obsoletes is needed because of the file
+  conflicts that installing two spec impls would cause. Revert "Removing hack
+  so that this builds correctly named spec impl packages on rhel"
+  (csutherl@redhat.com)
+- Removing hack so that this builds correctly named spec impl packages on rhel
+  (csutherl@redhat.com)
+- Revert "Touching to rebuild" (csutherl@redhat.com)
+- Touching to rebuild (csutherl@redhat.com)
+- Hacking around the jsp/servlet spec versions so that it provides what RHEL
+  needs. This is conditionally done only on RHEL (csutherl@redhat.com)
+- Reverting epoch. It looks like that broke something... (csutherl@redhat.com)
+- Cleanup requirement on jaspic sub-package that was removed
+  (csutherl@redhat.com)
+- Bumping the epoch version so that this package overrides the OS package when
+  the COPR repo is enabled (csutherl@redhat.com)
+- One more touch to get it working on epel-7... (csutherl@redhat.com)
+- Trying to get epel-7 to build. It looks like it's using the fc25 srpm, so
+  including all patches rather than using conditionals (csutherl@redhat.com)
+- Resolving bad macro issue for fc24 (csutherl@redhat.com)
+- Revert "fc24 can't decide if it wants to produce the metadata or not..."
+  (csutherl@redhat.com)
+- fc24 can't decide if it wants to produce the metadata or not...
+  (csutherl@redhat.com)
+- Fixing another quirky thing (the maven frag dir doesn't exist) about building
+  on multiple versions. (csutherl@redhat.com)
+- Forgot to update sources (csutherl@redhat.com)
+- I noticed that javadocs are generated for webservices so adding back those
+  deps even though we don't ship them (csutherl@redhat.com)
+- More system property cleanup and adding missing variable for fedora
+  (csutherl@redhat.com)
+- Updating spec to build on rhel-7 (csutherl@redhat.com)
+- Rolling jaspic and websocket back into -libs rather than their own packages.
+  (csutherl@redhat.com)
+- Update to 8.5.15 (csutherl@redhat.com)
+- Update to 8.5.11 (csutherl@redhat.com)
+- Catalina requires the JASPIC API for some things, so they should be there for
+  use Revert "Moving jaspic dep from lib to the appropriate rpms"
+  (csutherl@redhat.com)
+- WebSocket needs the Servlet API to function (csutherl@redhat.com)
+- Turns out we do need the epoch to update the previous version :(
+  (csutherl@redhat.com)
+- Moving jaspic dep from lib to the appropriate rpms (csutherl@redhat.com)
+- Adding missing mfiles Adding missing jaspic jar link Adding websocket spec
+  version Moving jaspic/websocket jars links into the subpackages instead of
+  tomcat-lib (csutherl@redhat.com)
+- Removing lib_dir since I don't need the custom builder anymore
+  (csutherl@redhat.com)
+- Adding websocket (wasn't done previously) and jaspic API subpackages and
+  amending subpackage summaries to include the version information for the APIs
+  (csutherl@redhat.com)
+- Updating recommended tomcat-native version (csutherl@redhat.com)
+- Cleaning up changelog a bit (csutherl@redhat.com)
+- Cleaning up mock cfg to use tito instead (csutherl@redhat.com)
+- Resetting epoch to 0; tomcat 8.0 is obviously older than 8.5
+  (csutherl@redhat.com)
+- Removing my custom builder as it isn't necessary. I already provide a
+  tarball, so it doesn't need to create one (csutherl@redhat.com)
+- Adding custom builder to create the correct tarball structure for tomcat to
+  minimize spec changes :) (csutherl@redhat.com)
+
 * Thu Jun 15 2017 Coty Sutherland <csutherl@redhat.com> - 1:8.5.15-1
 - Update to 8.5.15
 
