@@ -42,7 +42,7 @@
 %endif
 %global major_version 8
 %global minor_version 5
-%global micro_version 15
+%global micro_version 37
 %global packdname apache-tomcat-%{version}-src
 %global elspec 3.0
 %global tcuid 91
